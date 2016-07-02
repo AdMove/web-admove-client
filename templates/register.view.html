@@ -1,0 +1,49 @@
+<div class="full-height" layout="row" layout-align="center center">
+    <md-content flex flex-gt-sm="50" flex-gt-xs="80">
+        <md-toolbar layout-align="center center" class="md-toolbar">
+            <p>
+                Register
+            </p>
+        </md-toolbar>
+        <div layout-padding>
+            <md-input-container class="md-block">
+                <label>Email</label>
+                <input type="email">
+            </md-input-container>
+            <md-content layout="row">
+                <md-input-container flex="50">
+                    <label>Password</label>
+                    <input type="password">
+                </md-input-container>
+                <md-input-container flex="50">
+                    <label>Confirm Password</label>
+                    <input type="password">
+                </md-input-container>
+            </md-content>
+            <md-content layout="row">
+                <md-input-container flex="50">
+                    <label>First Name</label>
+                    <input>
+                </md-input-container>
+                <md-input-container flex="50">
+                    <label>Last Name</label>
+                    <input>
+                </md-input-container>
+            </md-content>
+            <md-input-container class="md-block">
+                <label>Phone Number</label>
+                <input type="tel">
+            </md-input-container>
+
+
+            <div layout="column">
+                <md-button class="md-raised md-primary">Register</md-button>
+            </div>
+            <div layout="row" layout-align="center">
+                <span>
+                    Already have an account? <md-button ng-click="goLogin()">Login</md-button>
+                </span>
+            </div>
+        </div>
+    </md-content>
+</div>

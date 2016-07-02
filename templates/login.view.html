@@ -1,0 +1,37 @@
+<div class="full-height" layout="row" layout-align="center center">
+    <md-content flex flex-gt-sm="30" flex-gt-xs="50">
+        <md-toolbar layout-align="center center" class="md-toolbar">
+            <p>
+                WELCOME
+            </p>
+        </md-toolbar>
+        <div layout-padding>
+            <md-input-container class="md-block">
+                <label>Email</label>
+                <input type="email">
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label>Password</label>
+                <input type="password">
+            </md-input-container>
+            <div layout="column">
+                <md-button class="md-raised md-primary">Sign In</md-button>
+            </div>
+            <div layout="row" layout-align="center">
+                <span>
+                    Don't have an account? <md-button ng-click="goRegister()">Register</md-button>
+                </span>
+            </div>
+            <div layout="row">
+                <div flex="50" layout="column">
+                    <md-button class="md-raised md-primary" ng-click="fbLogin()">Facebok</md-button>
+                </div>
+
+                <google-plus-signin clientid="540992315724-2o030a2cdrfnflqp1mgat5ekn616ae54.apps.googleusercontent.com"
+                                    autorender="false" customtargetid="google-signin" flex="50" layout="column">
+                    <md-button id="google-signin" class="md-raised md-warn">Google</md-button>
+                </google-plus-signin>
+            </div>
+        </div>
+    </md-content>
+</div>

@@ -1,0 +1,90 @@
+<div layout="column" layout="column" style="height: inherit;" ng-cloak>
+    <section layout="row" flex>
+
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
+                    md-is-locked-open="$mdMedia('gt-md')">
+            <md-toolbar class="md-theme-indigo">
+                <md-list-item class="md-2-line user-data">
+                    <img ng-src="{{user.photo || 'resources/img/avatar.png'}}"
+                         class="md-avatar"/>
+                    <div class="md-list-item-text">
+                        <h3>{{user.name}}</h3>
+                        <p>{{user.email}}</p>
+                    </div>
+                </md-list-item>
+            </md-toolbar>
+            <md-content ng-controller="LeftCtrl" md-swipe-left="close()">
+                <md-list ng-cloak="">
+                    <md-list-item class="list-item advertiser-option" ng-click="showMyRoads()" ng-class="selected === 'myRoads' ? 'active' : false">
+                        <md-icon md-svg-src="resources/img/icons/ic_supervisor_account_black.svg"></md-icon>
+                        <p>My Roads</p>
+                    </md-list-item>
+                    <md-list-item class="list-item advertiser-option" ng-click="null" ng-class="selected === 'supervisorAccount' ? 'active' : false">
+                        <md-icon md-svg-src="resources/img/icons/ic_supervisor_account_black.svg"></md-icon>
+                        <p>Supervisor Account</p>
+                    </md-list-item>
+                    <md-list-item class="list-item advertiser-option" ng-click="null" ng-class="selected === 'settings' ? 'active' : false">
+                        <md-icon md-svg-src="resources/img/icons/ic_settings_black.svg"></md-icon>
+                        <p>Settings</p>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </md-sidenav>
+
+        <md-content flex>
+            <md-fab-toolbar md-open="navigationBar.isOpen"
+                            count="navigationBar.count" md-direction="{{navigationBar.selectedDirection}}">
+                <md-fab-trigger class="align-with-text">
+                    <md-button aria-label="menu" class="md-fab md-primary">
+                        <md-icon md-svg-src="resources/img/icons/ic_menu_white.svg"></md-icon>
+                    </md-button>
+                </md-fab-trigger>
+
+                <md-toolbar>
+                    <md-fab-actions class="md-toolbar-tools">
+                        <md-button ng-click="logout()" aria-label="exit" class="md-icon-button">
+                            <md-icon md-svg-src="resources/img/icons/ic_exit_to_app_white.svg"></md-icon>
+                        </md-button>
+                        <md-button ng-click="toggleRight()" ng-hide="isOpenRight()"
+                                   aria-label="home" class="md-icon-button">
+                            <md-icon md-svg-src="resources/img/icons/ic_build_white.svg"></md-icon>
+                        </md-button>
+                        <md-button ng-click="toggleLeft()" hide-gt-md
+                                   aria-label="filters" class="md-icon-button">
+                            <md-icon md-svg-src="resources/img/icons/ic_home_white.svg"></md-icon>
+                        </md-button>
+                    </md-fab-actions>
+                </md-toolbar>
+            </md-fab-toolbar>
+
+            <div layout="row" layout-align="top center">
+                <map-canvas class="map" id="map"></map-canvas>
+            </div>
+            <div flex></div>
+        </md-content>
+
+        <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+            <md-toolbar class="md-theme-light">
+                <h1 class="md-toolbar-tools">Filters</h1>
+            </md-toolbar>
+            <md-content ng-controller="RightCtrl" md-swipe-right="close()" layout-padding>
+                <form>
+                    <md-input-container>
+                        <label for="testInput">Test input</label>
+                        <input type="text" id="testInput"
+                               ng-model="data" md-autofocus>
+                    </md-input-container>
+                    <md-datepicker ng-model="startDate" md-placeholder="Enter start date"></md-datepicker>
+                    <md-datepicker ng-model="endDate" md-placeholder="Enter end date"></md-datepicker>
+                </form>
+                <md-button ng-click="filter()" class="md-primary">
+                    Filter
+                </md-button>
+                <md-button ng-click="close()" class="md-primary">
+                    Close
+                </md-button>
+            </md-content>
+        </md-sidenav>
+
+    </section>
+</div>

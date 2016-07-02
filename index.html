@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AdMove Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet"
+          href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <!-- Custom style sheets -->
+    <link rel="stylesheet" href="styles/app.css">
+    <!-- Google Maps Library -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.41.min.js"></script>
+    <script>
+        AWS.config.region = 'us-east-1';
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxYIarCZIq4u6WvBgMm-f96Iuj4ErM5fU"></script>
+</head>
+<body ng-app="app" ng-cloak ng-controller="IndexController">
+
+<div ng-show="!loaded" layout="row" layout-align="center center" style="height: 100%">
+    <div layout="row" style="position: relative; left: -100px; top: -100px">
+        <md-progress-circular class="stroke-blue" md-mode="indeterminate" md-diameter="200px"></md-progress-circular>
+        <md-progress-circular class="stroke-orange reverse" md-mode="indeterminate" md-diameter="160px" style="left: 20px; top: 20px;"></md-progress-circular>
+        <md-progress-circular class="stroke-yellow" md-mode="indeterminate" md-diameter="120px" style="left: 40px; top: 40px"></md-progress-circular>
+        <md-progress-circular class="reverse" md-mode="indeterminate" md-diameter="80px" style="left: 60px; top: 60px"></md-progress-circular>
+    </div>
+</div>
+
+<div ng-view style="height: 100%;"></div>
+
+<!-- Angular Material requires Angular.js Libraries -->
+<script src="//code.angularjs.org/1.5.5/angular.js"></script>
+<script src="//code.angularjs.org/1.5.5/angular-aria.js"></script>
+<script src="//code.angularjs.org/1.5.5/angular-route.js"></script>
+<script src="//code.angularjs.org/1.5.5/angular-cookies.js"></script>
+<script src="//code.angularjs.org/1.5.5/angular-animate.js"></script>
+<script src="//code.angularjs.org/1.5.5/angular-messages.js"></script>
+<script type="text/javascript" src="scripts/google-plus-signin.js"></script>
+
+<!-- Angular Material Library -->
+<script src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.js"></script>
+
+<!-- Your application bootstrap  -->
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers/index.controller.js"></script>
+<script src="scripts/controllers/home.controller.js"></script>
+<script src="scripts/controllers/login.controller.js"></script>
+<script src="scripts/controllers/register.controller.js"></script>
+<script src="scripts/services/navigation.service.js"></script>
+<script src="scripts/services/auth.service.js"></script>
+<script src="scripts/services/dynamo.service.js"></script>
+<script src="scripts/services/map.service.js"></script>
+
+</body>
+</html>
