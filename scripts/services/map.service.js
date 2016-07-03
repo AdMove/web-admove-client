@@ -70,13 +70,17 @@
                 .then(function (data) {
                     console.log(data);
                     var roads = splitRoad(data.Items);
-                    angular.forEach(roads, function (road) {
-                        service.placeRoad(road.map(function (item) {
-                            return new google.maps.LatLng(item.latitude.N, item.longitude.N);
-                        }), getRandomColor());
-                    });
-                    var road = roads[roads.length - 1];
-                    map.setCenter(new google.maps.LatLng(road[road.length - 1].latitude.N, road[road.length - 1].longitude.N));
+                    if (roads) {
+                        angular.forEach(roads, function (road) {
+                            service.placeRoad(road.map(function (item) {
+                                return new google.maps.LatLng(item.latitude.N, item.longitude.N);
+                            }), getRandomColor());
+                        });
+                        var road = roads[roads.length - 1];
+                        map.setCenter(new google.maps.LatLng(road[road.length - 1].latitude.N, road[road.length - 1].longitude.N));
+                    }else{
+                        alert('You have no roads yet');
+                    }
                     deferred.resolve();
                 });
             return deferred.promise;
