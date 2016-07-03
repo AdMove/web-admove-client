@@ -57,47 +57,28 @@
             roads = [];
         };
 
-        service.showMyRoads = function () {
+        service.showMyRoads = function (userId) {
             var deferred = $q.defer();
             service.clearRoads();
             var promise;
             if (filter){
-                promise = dynamo.getFilteredLocationsOfUser(AWS.config.credentials.identityId, filter.startDate, filter.endDate);
+                promise = dynamo.getFilteredLocationsOfUser(userId, filter.startDate, filter.endDate);
             }else{
-                promise = dynamo.getLocationsOfUser(AWS.config.credentials.identityId);
+                promise = dynamo.getLocationsOfUser(userId);
             }
             promise
                 .then(function (data) {
+                    console.log(data);
                     var roads = splitRoad(data.Items);
                     angular.forEach(roads, function (road) {
                         service.placeRoad(road.map(function (item) {
                             return new google.maps.LatLng(item.latitude.N, item.longitude.N);
                         }), getRandomColor());
                     });
+                    var road = roads[roads.length - 1];
+                    map.setCenter(new google.maps.LatLng(road[road.length - 1].latitude.N, road[road.length - 1].longitude.N));
                     deferred.resolve();
                 });
-            // dynamo.getFilteredLocationsOfUser(AWS.config.credentials.identityId, filter.startDate, filter.endDate)
-            //     .then(function (data) {
-            //         angular.forEach(data.Items, function (item) {
-            //             var color = getRandomColor();
-            //             var promise;
-            //             if (filter){
-            //                 promise = dynamo.getFilteredLocationsOfUser(item.userId.S, filter.startDate, filter.endDate);
-            //             }else{
-            //                 promise = dynamo.getLocationsOfUser(item.userId.S);
-            //             }
-            //             promise
-            //                 .then(function (data) {
-            //                     var roads = splitRoad(data.Items);
-            //                     angular.forEach(roads, function (road) {
-            //                         service.placeRoad(road.map(function (item) {
-            //                             return new google.maps.LatLng(item.latitude.N, item.longitude.N);
-            //                         }), color);
-            //                     });
-            //                     deferred.resolve();
-            //                 });
-            //         });
-            //     });
             return deferred.promise;
         };
 

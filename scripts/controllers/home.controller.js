@@ -43,7 +43,7 @@
 
         $scope.showMyRoads = function(){
             $scope.selected = 'myRoads';
-            ms.showMyRoads;
+            ms.showMyRoads(AWS.config.credentials.identityId);
         };
 
         $scope.user = {
