@@ -49,12 +49,12 @@
             }
         });
         
-        $scope.userLogin = function(username, password){
+        $scope.userLogin = function(){
             $scope.loginProgress = true;
             try {
                 var authenticationData = {
-                    Username: username,
-                    Password: password
+                    Username: $scope.email,
+                    Password: $scope.password
                 };
                 var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
                 var poolData = {

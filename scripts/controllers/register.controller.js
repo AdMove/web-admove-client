@@ -5,8 +5,8 @@
         .module('app')
         .controller('RegisterController', RegisterController);
 
-    RegisterController.$inject = ['$scope', '$cookies', 'NavigationService','$timeout'];
-    function RegisterController($scope, $cookies, ns, $timeout) {
+    RegisterController.$inject = ['$scope', '$cookies', 'NavigationService', '$timeout', 'AuthService', 'DialogService'];
+    function RegisterController($scope, $cookies, ns, $timeout, as, ds) {
         $scope.goLogin = ns.goLogin;
 
         $scope.$on('$viewContentLoaded', function () {
@@ -29,12 +29,106 @@
                         $scope.$emit('_content-loaded');
                     });
                 });
-            }else{
+            } else {
                 $timeout(function () {
                     $scope.$emit('_content-loaded');
                 });
             }
         });
+
+        $scope.userRegister = function () {
+            var poolData = {
+                UserPoolId: 'us-east-1_SDw78NVtv',
+                ClientId: '1j4qenfvkk11dlnq2rrll26au7'
+            };
+            var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+            var attributeList = [];
+
+            var dataEmail = {
+                Name: 'email',
+                Value: $scope.email
+            };
+            // var dataFirstName = {
+            //     Name: 'first_name',
+            //     Value: $scope.firstName
+            // };
+            // var dataLastName = {
+            //     Name: 'last_name',
+            //     Value: $scope.lastName
+            // };
+            var dataName = {
+                Name: 'name',
+                Value: $scope.firstName + ' ' + $scope.lastName
+            };
+            if ($scope.phoneNumber) {
+                var dataPhoneNumber = {
+                    Name: 'phone_number',
+                    Value: $scope.phoneNumber
+                };
+            }
+            var attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
+            // var attributeFirstName = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataFirstName);
+            // var attributeLastName = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataLastName);
+            var attributeName = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataName);
+            var attributePhoneNumber = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataPhoneNumber);
+
+            attributeList.push(attributeEmail);
+            // attributeList.push(attributeFirstName);
+            // attributeList.push(attributeLastName);
+            attributeList.push(attributeName);
+            attributeList.push(attributePhoneNumber);
+
+            userPool.signUp($scope.email, $scope.password, attributeList, null, function (err, result) {
+                if (err) {
+                    console.log(err);
+                    alert(err.message);
+                    return;
+                }
+                console.log('result');
+                console.log(result);
+                var cognitoUser = result.user;
+                ds.prompt('Confirm Account', 'Confirmation code is sent to your email address. Enter code below:', 'Code', 'Submit', 'Resend Code')
+                    .then(function (code) {
+                        cognitoUser.confirmRegistration(code, true, function(err) {
+                            if (err) {
+                                alert(err);
+                                return;
+                            }
+                            var authenticationData = {
+                                Username: $scope.email,
+                                Password: $scope.password
+                            };
+                            var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+                            cognitoUser.authenticateUser(authenticationDetails, {
+                                onSuccess: function (result) {
+                                    as.login(
+                                        'cognito-idp.us-east-1.amazonaws.com/us-east-1_SDw78NVtv',
+                                        result.getIdToken().getJwtToken(),
+                                        function (callback) {
+                                            cognitoUser.getUserAttributes(function (err, result) {
+                                                if (err) {
+                                                    alert(err);
+                                                    return;
+                                                }
+                                                var data = {};
+                                                angular.forEach(result, function (attr) {
+                                                    data[attr.Name] = attr.Value;
+                                                });
+                                                callback(data);
+                                            });
+                                        });
+                                },
+
+                                onFailure: function (err) {
+                                    alert(err.message);
+                                }
+                            });
+                        });
+                    }, function () {
+                        alert('could not resend :)');
+                    });
+            });
+        }
     }
 
 })();
