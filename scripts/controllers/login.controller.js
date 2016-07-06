@@ -48,6 +48,63 @@
                 });
             }
         });
+        
+        $scope.userLogin = function(username, password){
+            $scope.loginProgress = true;
+            try {
+                var authenticationData = {
+                    Username: username,
+                    Password: password
+                };
+                var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+                var poolData = {
+                    UserPoolId: 'us-east-1_SDw78NVtv',
+                    ClientId: '1j4qenfvkk11dlnq2rrll26au7'
+                };
+                var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+                var userData = {
+                    Username: authenticationData.Username,
+                    Pool: userPool
+                };
+                var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+                cognitoUser.authenticateUser(authenticationDetails, {
+                    onSuccess: function (result) {
+                        as.login(
+                            'cognito-idp.us-east-1.amazonaws.com/us-east-1_SDw78NVtv',
+                            result.getIdToken().getJwtToken(),
+                            function (callback) {
+                                cognitoUser.getUserAttributes(function (err, result) {
+                                    if (err) {
+                                        alert(err);
+                                        return;
+                                    }
+                                    var data = {};
+                                    angular.forEach(result, function (attr) {
+                                        data[attr.Name] = attr.Value;
+                                    });
+                                    console.log(data);
+                                    callback(data);
+                                    $scope.$apply(function(){
+                                        $scope.loginProgress = false;
+                                    });
+                                });
+                            });
+                    },
+
+                    onFailure: function (err) {
+                        $scope.$apply(function() {
+                            $scope.loginProgress = false;
+                        });
+                        alert(err.message);
+                    }
+                });
+            }catch (err){
+                $scope.$apply(function() {
+                    $scope.loginProgress = false;
+                });
+                alert(err.message);
+            }
+        };
 
         $scope.$on('event:google-plus-signin-success', function (event, authResult) {
             var id_token = authResult.hg.id_token;

@@ -6,17 +6,24 @@
             </p>
         </md-toolbar>
         <div layout-padding>
-            <md-input-container class="md-block">
-                <label>Email</label>
-                <input type="email">
-            </md-input-container>
-            <md-input-container class="md-block">
-                <label>Password</label>
-                <input type="password">
-            </md-input-container>
-            <div layout="column">
-                <md-button class="md-raised md-primary">Sign In</md-button>
-            </div>
+            <form ng-submit="userLogin(email, password)">
+                <md-input-container class="md-block">
+                    <label>Email</label>
+                    <input ng-model="email">
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Password</label>
+                    <input type="password" ng-model="password">
+                </md-input-container>
+                <div layout="column">
+                    <md-button class="md-raised md-primary" type="submit" ng-disabled="loginProgress" aria-label="temp">
+                        <md-progress-circular ng-if="loginProgress" class="stroke-orange" md-mode="indeterminate"
+                                              md-diameter="20px"
+                                              style="position: relative; top: -10px;;"></md-progress-circular>
+                        <span ng-if="!loginProgress">Sign In</span>
+                    </md-button>
+                </div>
+            </form>
             <div layout="row" layout-align="center">
                 <span>
                     Don't have an account? <md-button ng-click="goRegister()">Register</md-button>
@@ -27,8 +34,9 @@
                     <md-button class="md-raised md-primary" ng-click="fbLogin()">Facebok</md-button>
                 </div>
 
-                <google-plus-signin clientid="540992315724-2o030a2cdrfnflqp1mgat5ekn616ae54.apps.googleusercontent.com"
-                                    autorender="false" customtargetid="google-signin" flex="50" layout="column">
+                <google-plus-signin
+                        clientid="540992315724-2o030a2cdrfnflqp1mgat5ekn616ae54.apps.googleusercontent.com"
+                        autorender="false" customtargetid="google-signin" flex="50" layout="column">
                     <md-button id="google-signin" class="md-raised md-warn">Google</md-button>
                 </google-plus-signin>
             </div>
