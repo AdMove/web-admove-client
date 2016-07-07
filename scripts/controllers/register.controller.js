@@ -80,53 +80,63 @@
 
             userPool.signUp($scope.email, $scope.password, attributeList, null, function (err, result) {
                 if (err) {
-                    console.log(err);
-                    alert(err.message);
+                    ds.alert(err.message);
                     return;
                 }
-                console.log('result');
-                console.log(result);
-                var cognitoUser = result.user;
-                ds.prompt('Confirm Account', 'Confirmation code is sent to your email address. Enter code below:', 'Code', 'Submit', 'Resend Code')
-                    .then(function (code) {
-                        cognitoUser.confirmRegistration(code, true, function(err) {
-                            if (err) {
-                                alert(err);
-                                return;
-                            }
-                            var authenticationData = {
-                                Username: $scope.email,
-                                Password: $scope.password
-                            };
-                            var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
-                            cognitoUser.authenticateUser(authenticationDetails, {
-                                onSuccess: function (result) {
-                                    as.login(
-                                        'cognito-idp.us-east-1.amazonaws.com/us-east-1_SDw78NVtv',
-                                        result.getIdToken().getJwtToken(),
-                                        function (callback) {
-                                            cognitoUser.getUserAttributes(function (err, result) {
-                                                if (err) {
-                                                    alert(err);
-                                                    return;
-                                                }
-                                                var data = {};
-                                                angular.forEach(result, function (attr) {
-                                                    data[attr.Name] = attr.Value;
-                                                });
-                                                callback(data);
-                                            });
-                                        });
-                                },
+                promptConfirm(result.user);
+            });
+        };
 
-                                onFailure: function (err) {
-                                    alert(err.message);
-                                }
-                            });
-                        });
-                    }, function () {
-                        alert('could not resend :)');
+        function promptConfirm(cognitoUser){
+            ds.prompt('Confirm Account', 'Confirmation code is sent to your email address. Enter code below:', 'Code', 'Submit', 'Resend Code')
+                .then(function (code) {
+                    confirmUser(cognitoUser, code);
+                }, function () {
+                    cognitoUser.resendConfirmationCode(function(err, result) {
+                        if (err) {
+                            ds.alert(err);
+                            return;
+                        }
+                        promptConfirm(cognitoUser);
                     });
+                });
+        }
+
+        function confirmUser(cognitoUser, code){
+            cognitoUser.confirmRegistration(code, true, function(err) {
+                if (err) {
+                    ds.alert(err);
+                    return;
+                }
+                var authenticationData = {
+                    Username: $scope.email,
+                    Password: $scope.password
+                };
+                var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+                cognitoUser.authenticateUser(authenticationDetails, {
+                    onSuccess: function (result) {
+                        as.login(
+                            'cognito-idp.us-east-1.amazonaws.com/us-east-1_SDw78NVtv',
+                            result.getIdToken().getJwtToken(),
+                            function (callback) {
+                                cognitoUser.getUserAttributes(function (err, result) {
+                                    if (err) {
+                                        ds.alert(err);
+                                        return;
+                                    }
+                                    var data = {};
+                                    angular.forEach(result, function (attr) {
+                                        data[attr.Name] = attr.Value;
+                                    });
+                                    callback(data);
+                                });
+                            });
+                    },
+
+                    onFailure: function (err) {
+                        ds.alert(err.message);
+                    }
+                });
             });
         }
     }

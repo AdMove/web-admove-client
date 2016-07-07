@@ -5,8 +5,8 @@
         .module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$scope', '$cookies', 'NavigationService', 'AuthService', '$timeout'];
-    function LoginController($scope, $cookies, ns, as, $timeout) {
+    LoginController.$inject = ['$scope', '$cookies', 'NavigationService', 'AuthService', 'DialogService', '$timeout'];
+    function LoginController($scope, $cookies, ns, as, ds, $timeout) {
         $scope.goRegister = ns.goRegister;
 
         $scope.fbLogin = function () {
@@ -75,7 +75,7 @@
                             function (callback) {
                                 cognitoUser.getUserAttributes(function (err, result) {
                                     if (err) {
-                                        alert(err);
+                                        ds.alert(err);
                                         return;
                                     }
                                     var data = {};
@@ -95,14 +95,14 @@
                         $scope.$apply(function() {
                             $scope.loginProgress = false;
                         });
-                        alert(err.message);
+                        ds.alert(err.message);
                     }
                 });
             }catch (err){
                 $scope.$apply(function() {
                     $scope.loginProgress = false;
                 });
-                alert(err.message);
+                ds.alert(err.message);
             }
         };
 

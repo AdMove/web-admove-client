@@ -16,12 +16,11 @@
         function alert(title, body, okTitle){
             return $mdDialog.show(
                 $mdDialog.alert()
-                    // .parent(angular.element(document.querySelector('#popupContainer')))
                     .clickOutsideToClose(true)
                     .title(title)
                     .textContent(body)
                     .ariaLabel('AlertDialog')
-                    .ok(okTitle)
+                    .ok(okTitle || 'Ok')
             );
         }
 
@@ -31,9 +30,8 @@
                 .textContent(body)
                 .placeholder(placeholder)
                 .ariaLabel(placeholder)
-                // .targetEvent(ev)
-                .ok(okTitle)
-                .cancel(cancelTitle);
+                .ok(okTitle || 'Ok')
+                .cancel(cancelTitle || 'Cancel');
             return $mdDialog.show(confirm);
         }
 
