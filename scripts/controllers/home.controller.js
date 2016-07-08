@@ -7,8 +7,8 @@
         .controller('LeftCtrl', LeftCtrl)
         .controller('RightCtrl', RightCtrl);
 
-    HomeController.$inject = ['$scope', '$timeout', '$mdSidenav', '$log', '$cookies', 'AuthService', 'NavigationService', 'MapService'];
-    function HomeController($scope, $timeout, $mdSidenav, $log, $cookies, as, ns, ms) {
+    HomeController.$inject = ['$scope', '$timeout', '$mdSidenav', '$log', '$cookies', 'AuthService', 'NavigationService', 'MapService', 'DialogService', 'Dynamo'];
+    function HomeController($scope, $timeout, $mdSidenav, $log, $cookies, as, ns, ms, ds, dynamo) {
         $scope.$on('$viewContentLoaded', function () {
             var provider = $cookies.get('client.auth_provider');
             var token = $cookies.get('client.auth_token');
@@ -39,11 +39,34 @@
 
         $scope.$on('_content-loaded', function () {
             $scope.showMyRoads();
+            loadSettings();
         });
 
         $scope.showMyRoads = function(){
             $scope.selected = 'myRoads';
             ms.showMyRoads(AWS.config.credentials.identityId);
+        };
+
+        $scope.showSettings = function(){
+            $scope.selected = 'settings';
+        };
+        
+        
+
+        $scope.saveSettings = function(){
+            var data = {
+                car_maker: $scope.car_maker,
+                car_model: $scope.car_model,
+                car_year: $scope.car_year,
+                take_suggestions: $scope.take_suggestions
+            };
+
+            dynamo.saveUserSettings(AWS.config.credentials.identityId, data)
+                .then(function(){
+                    ds.alert('Your settings saved successfully');
+                }, function(e){
+                    ds.alert(e.message);
+                });
         };
 
         $scope.user = {
@@ -69,6 +92,18 @@
             return $mdSidenav('right').isOpen();
         };
 
+
+        function loadSettings(){
+            dynamo.getUserSettings(AWS.config.credentials.identityId)
+                .then(function(data){
+                    $scope.car_maker = data.Item.car_maker.S;
+                    $scope.car_model = data.Item.car_model.S;
+                    $scope.car_year = parseInt(data.Item.car_year.N);
+                    $scope.take_suggestions = data.Item.take_suggestions.BOOL;
+                }, function(e){
+                    ds.alert(e.message);
+                });
+        }
 
         /**
          * Supplies a function that will continue to operate until the

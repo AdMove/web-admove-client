@@ -5,8 +5,8 @@
         .module('app')
         .factory('MapService', MapService);
 
-    MapService.$inject = ['Dynamo', '$q'];
-    function MapService(dynamo, $q) {
+    MapService.$inject = ['Dynamo', '$q', 'DialogService'];
+    function MapService(dynamo, $q, ds) {
         var map, poly, roads = [];
         var filter;
         var service = {};
@@ -79,7 +79,7 @@
                         var road = roads[roads.length - 1];
                         map.setCenter(new google.maps.LatLng(road[road.length - 1].latitude.N, road[road.length - 1].longitude.N));
                     }else{
-                        alert('You have no roads yet');
+                        ds.alert('You have no roads yet');
                     }
                     deferred.resolve();
                 });

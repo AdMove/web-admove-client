@@ -15,15 +15,18 @@
             </md-toolbar>
             <md-content ng-controller="LeftCtrl" md-swipe-left="close()">
                 <md-list ng-cloak="">
-                    <md-list-item class="list-item advertiser-option" ng-click="showMyRoads()" ng-class="selected === 'myRoads' ? 'active' : false">
+                    <md-list-item class="list-item advertiser-option" ng-click="showMyRoads()"
+                                  ng-class="selected === 'myRoads' ? 'active' : false">
                         <md-icon md-svg-src="resources/img/icons/ic_supervisor_account_black.svg"></md-icon>
                         <p>My Roads</p>
                     </md-list-item>
-                    <md-list-item class="list-item advertiser-option" ng-click="null" ng-class="selected === 'supervisorAccount' ? 'active' : false">
+                    <md-list-item class="list-item advertiser-option" ng-click="null"
+                                  ng-class="selected === 'supervisorAccount' ? 'active' : false">
                         <md-icon md-svg-src="resources/img/icons/ic_supervisor_account_black.svg"></md-icon>
                         <p>Supervisor Account</p>
                     </md-list-item>
-                    <md-list-item class="list-item advertiser-option" ng-click="null" ng-class="selected === 'settings' ? 'active' : false">
+                    <md-list-item class="list-item advertiser-option" ng-click="showSettings()"
+                                  ng-class="selected === 'settings' ? 'active' : false">
                         <md-icon md-svg-src="resources/img/icons/ic_settings_black.svg"></md-icon>
                         <p>Settings</p>
                     </md-list-item>
@@ -59,6 +62,58 @@
 
             <div layout="row" layout-align="top center">
                 <map-canvas class="map" id="map"></map-canvas>
+            </div>
+
+            <div layout="row" layout-align="center center" ng-show="selected === 'settings'" flex="100">
+                <md-content flex flex-gt-sm="50" flex-gt-xs="80">
+                    <md-toolbar layout-align="center center" class="md-toolbar">
+                        <p>
+                            Settings
+                        </p>
+                    </md-toolbar>
+                    <div layout-padding>
+                        <form ng-submit="saveSettings()">
+                            <!--<md-input-container class="md-block">-->
+                            <!--<label>Car Maker</label>-->
+                            <!--<input ng-model="car_maker">-->
+                            </md-input-container>
+                            <md-content layout="row" layout-xs="column">
+                                <md-input-container flex="50">
+                                    <label>Car Maker</label>
+                                    <input ng-model="car_maker">
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>Car Model</label>
+                                    <input ng-model="car_model">
+                                </md-input-container>
+                                <md-input-container flex="50">
+                                    <label>Car Year</label>
+                                    <input type="number" min="1900" max="2016" ng-model="car_year">
+                                </md-input-container>
+                            </md-content>
+                            <!--<md-content layout="row">-->
+                            <!--<md-input-container flex="50">-->
+                            <!--<label>First Name</label>-->
+                            <!--<input ng-model="firstName">-->
+                            <!--</md-input-container>-->
+                            <!--<md-input-container flex="50">-->
+                            <!--<label>Last Name</label>-->
+                            <!--<input ng-model="lastName">-->
+                            <!--</md-input-container>-->
+                            <!--</md-content>-->
+                            <md-input-container class="md-block">
+                                <md-checkbox ng-model="take_suggestions">
+                                    Take Suggestions
+                                </md-checkbox>
+                            </md-input-container>
+
+
+                            <div layout="column">
+                                <md-button class="md-raised md-primary" type="submit">Save</md-button>
+                            </div>
+                        </form>
+                    </div>
+                </md-content>
             </div>
             <div flex></div>
         </md-content>
