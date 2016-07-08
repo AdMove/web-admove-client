@@ -40,19 +40,23 @@
 
         service.saveUserSettings = function(uid, settings){
             var item = {
-                'userId': {S: uid}
+                'userId': {S: uid},
+                'hasAdvertisment': {BOOL: false}  // ჯერჯერობით ესე იყოს
             };
             if (settings.car_maker) {
-                item.car_maker = {S: settings.car_maker};
+                item.carProducer = {S: settings.car_maker};
             }
             if (settings.car_model) {
-                item.car_model = {S: settings.car_model};
+                item.carModel = {S: settings.car_model};
             }
             if (settings.car_year) {
-                item.car_year = {S: settings.car_year};
+                item.carProductionYear = {S: settings.car_year+''};
+            }
+            if (settings.phone_number) {
+                item.phoneNumber = {S: settings.phone_number};
             }
             if (settings.take_suggestions !== undefined) {
-                item.take_suggestions = {BOOL: settings.take_suggestions};
+                item.takeSuggestions = {BOOL: settings.take_suggestions};
             }
             var params = {
                 TableName: users_table,

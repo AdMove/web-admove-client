@@ -58,6 +58,7 @@
                 car_maker: $scope.car_maker,
                 car_model: $scope.car_model,
                 car_year: $scope.car_year,
+                phone_number: $scope.phone_number,
                 take_suggestions: $scope.take_suggestions
             };
 
@@ -97,10 +98,11 @@
             dynamo.getUserSettings(AWS.config.credentials.identityId)
                 .then(function(data){
                     if (data.Item) {
-                        $scope.car_maker = data.Item.car_maker ? data.Item.car_maker.S : undefined;
-                        $scope.car_model = data.Item.car_model ? data.Item.car_model.S : undefined;
-                        $scope.car_year = data.Item.car_year ? parseInt(data.Item.car_year.N) : undefined;
-                        $scope.take_suggestions = data.Item.take_suggestions ? data.Item.take_suggestions.BOOL : undefined;
+                        $scope.car_maker = data.Item.carProducer ? data.Item.carProducer.S : undefined;
+                        $scope.car_model = data.Item.carModel ? data.Item.carModel.S : undefined;
+                        $scope.car_year = data.Item.carProductionYear ? parseInt(data.Item.carProductionYear.S) : undefined;
+                        $scope.take_suggestions = data.Item.takeSuggestions ? data.Item.takeSuggestions.BOOL : undefined;
+                        $scope.phone_number = data.Item.phoneNumber ? data.Item.phoneNumber.S : undefined;
                     }
                 }, function(e){
                     ds.alert(e.message);

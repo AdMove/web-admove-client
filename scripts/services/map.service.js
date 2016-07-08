@@ -68,7 +68,6 @@
             }
             promise
                 .then(function (data) {
-                    console.log(data);
                     var roads = splitRoad(data.Items);
                     if (roads) {
                         angular.forEach(roads, function (road) {

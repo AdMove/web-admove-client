@@ -80,17 +80,21 @@
                             <md-content layout="row" layout-xs="column">
                                 <md-input-container flex="50">
                                     <label>Car Maker</label>
-                                    <input ng-model="car_maker">
+                                    <input ng-model="car_maker" required>
                                 </md-input-container>
                                 <md-input-container flex="50">
                                     <label>Car Model</label>
-                                    <input ng-model="car_model">
+                                    <input ng-model="car_model" required>
                                 </md-input-container>
                                 <md-input-container flex="50">
                                     <label>Car Year</label>
-                                    <input type="number" min="1900" max="2016" ng-model="car_year">
+                                    <input type="number" min="1900" max="2016" ng-model="car_year" required>
                                 </md-input-container>
                             </md-content>
+                            <md-input-container class="md-block">
+                                <label>Phone Number</label>
+                                <input type="tel" ng-model="phone_number">
+                            </md-input-container>
                             <!--<md-content layout="row">-->
                             <!--<md-input-container flex="50">-->
                             <!--<label>First Name</label>-->
