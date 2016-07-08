@@ -40,12 +40,20 @@
 
         service.saveUserSettings = function(uid, settings){
             var item = {
-                'userId': {S: uid},
-                'car_maker': {S: settings.car_maker},
-                'car_model': {S: settings.car_model},
-                'car_year': {N: settings.car_year+''},
-                'take_suggestions': {BOOL: settings.take_suggestions}
+                'userId': {S: uid}
             };
+            if (settings.car_maker) {
+                item.car_maker = {S: settings.car_maker};
+            }
+            if (settings.car_model) {
+                item.car_model = {S: settings.car_model};
+            }
+            if (settings.car_year) {
+                item.car_year = {S: settings.car_year};
+            }
+            if (settings.take_suggestions !== undefined) {
+                item.take_suggestions = {BOOL: settings.take_suggestions};
+            }
             var params = {
                 TableName: users_table,
                 Item: item

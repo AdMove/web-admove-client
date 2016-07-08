@@ -96,10 +96,12 @@
         function loadSettings(){
             dynamo.getUserSettings(AWS.config.credentials.identityId)
                 .then(function(data){
-                    $scope.car_maker = data.Item.car_maker.S;
-                    $scope.car_model = data.Item.car_model.S;
-                    $scope.car_year = parseInt(data.Item.car_year.N);
-                    $scope.take_suggestions = data.Item.take_suggestions.BOOL;
+                    if (data.Item) {
+                        $scope.car_maker = data.Item.car_maker ? data.Item.car_maker.S : undefined;
+                        $scope.car_model = data.Item.car_model ? data.Item.car_model.S : undefined;
+                        $scope.car_year = data.Item.car_year ? parseInt(data.Item.car_year.N) : undefined;
+                        $scope.take_suggestions = data.Item.take_suggestions ? data.Item.take_suggestions.BOOL : undefined;
+                    }
                 }, function(e){
                     ds.alert(e.message);
                 });
