@@ -8,8 +8,7 @@
 
         var service = {
             alert: alert,
-            prompt: prompt,
-            showUser: showUser
+            prompt: prompt
         };
 
         return service;
