@@ -8,12 +8,13 @@
 
         var service = {
             alert: alert,
-            prompt: prompt
+            prompt: prompt,
+            showUser: showUser
         };
 
         return service;
 
-        function alert(title, body, okTitle){
+        function alert(title, body, okTitle) {
             return $mdDialog.show(
                 $mdDialog.alert()
                     .clickOutsideToClose(true)
@@ -24,7 +25,7 @@
             );
         }
 
-        function prompt(title, body, placeholder, okTitle, cancelTitle){
+        function prompt(title, body, placeholder, okTitle, cancelTitle) {
             var confirm = $mdDialog.prompt()
                 .title(title)
                 .textContent(body)

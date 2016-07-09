@@ -72,7 +72,7 @@
                         </p>
                     </md-toolbar>
                     <div layout-padding>
-                        <form ng-submit="saveSettings()">
+                        <form ng-submit="saveSettings()" name="settingsForm">
                             <!--<md-input-container class="md-block">-->
                             <!--<label>Car Maker</label>-->
                             <!--<input ng-model="car_maker">-->
@@ -113,7 +113,7 @@
 
 
                             <div layout="column">
-                                <md-button class="md-raised md-primary" type="submit">Save</md-button>
+                                <md-button class="md-raised md-primary" type="submit" ng-disabled="settingsForm.$pristine">Save</md-button>
                             </div>
                         </form>
                     </div>
