@@ -25,7 +25,7 @@
             poly.setMap(map);
 
             // Add a listener for the click event
-            map.addListener('click', addLatLng);
+            // map.addListener('click', addLatLng);
 
             // Handles click events on a map, and adds a new point to the Polyline.
             function addLatLng(event) {
