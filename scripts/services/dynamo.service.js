@@ -41,7 +41,7 @@
         service.saveUserSettings = function(uid, settings){
             var item = {
                 'userId': {S: uid},
-                'hasAdvertisment': {BOOL: false}  // ჯერჯერობით ესე იყოს
+                'hasAdvertisment': {N: '0'}  // ჯერჯერობით ესე იყოს
             };
             if (settings.car_maker) {
                 item.carProducer = {S: settings.car_maker};
@@ -56,7 +56,7 @@
                 item.phoneNumber = {S: settings.phone_number};
             }
             if (settings.take_suggestions !== undefined) {
-                item.takeSuggestions = {BOOL: settings.take_suggestions};
+                item.takeSuggestions = {N: settings.take_suggestions ? '1' : '0'};
             }
             var params = {
                 TableName: users_table,
