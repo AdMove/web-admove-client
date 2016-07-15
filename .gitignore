@@ -28,5 +28,9 @@ fabric.properties
 
 ## Gulp and Bower specific files:
 
-node_modules/
+# Gulp deploy
 .publish/
+
+# Gulp build
+dist/
+node_modules/
