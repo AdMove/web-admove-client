@@ -29,3 +29,4 @@ fabric.properties
 ## Gulp and Bower specific files:
 
 node_modules/
+.publish/
