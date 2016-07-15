@@ -25,3 +25,12 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
+## Gulp and Bower specific files:
+
+# Gulp deploy
+.publish/
+
+# Gulp build
+dist/
+node_modules/

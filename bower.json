@@ -1,0 +1,21 @@
+{
+  "name": "web-admove-client",
+  "description": "AdMove Client",
+  "main": "gulpfile.js",
+  "authors": [
+    "AdMove"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "AdMove"
+  ],
+  "homepage": "https://github.com/AdMove/web-admove-client",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
