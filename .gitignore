@@ -34,3 +34,5 @@ fabric.properties
 # Gulp build
 dist/
 node_modules/
+
+npm-debug.log

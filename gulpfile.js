@@ -9,6 +9,7 @@ var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 var clean = require('gulp-clean');
 var runSequence = require('run-sequence');
+var bower = require('gulp-bower');
 
 // tasks
 gulp.task('lint', function () {
@@ -59,6 +60,10 @@ gulp.task('connect', function () {
 		root: './dist/',
 		port: 8080
 	});
+});
+
+gulp.task('bower', function() {
+	return bower();
 });
 
 // default task
